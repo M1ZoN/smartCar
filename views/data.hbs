@@ -1,7 +1,11 @@
 <div id="vehicles">
   <h3>Step 3: Retrieve data</h3>
   <p>
+    {{#if isReport}}
+    <h3>Your report successfully sent to you insurance company.</h3>
+    {{else}}
     Success! You successfully sent a {{type}} request to the {{vehicle.year}} {{vehicle.make}} {{vehicle.model}}.
+    
   </p>
   <table class="table">
     <thead>
@@ -19,6 +23,7 @@
       {{/each}}
     </tbody>
   </table>
+{{/if}}
 
   <div>
     <a href="/vehicles" class="btn btn-primary" role="button">Make another request</a>

@@ -1,5 +1,5 @@
 'use strict';
-
+console.clear();
 const _ = require('lodash');
 const Promise = require('bluebird');
 const bodyParser = require('body-parser');
@@ -190,13 +190,13 @@ app.post('/request', function(req, res, next) {
   const {vehicleId, requestType: type} = req.body;
   const vehicle = vehicles[vehicleId];
   const instance = new smartcar.Vehicle(vehicleId, access.accessToken);
-
+  let isReport = false;
   let data = null;
 
   switch(type) {
     case 'info':
       instance.info()
-        .then(data => res.render('data', {data, type, vehicle}))
+        .then(data => res.render('data', {data, type, vehicle,isReport}))
         .catch(function(err) {
           const message = err.message || 'Failed to get vehicle info.';
           const action = 'fetching vehicle info';
@@ -205,7 +205,7 @@ app.post('/request', function(req, res, next) {
       break;
     case 'location':
       instance.location()
-        .then(({data}) => res.render('data', {data, type, vehicle}))
+        .then(({data}) => res.render('data', {data, type, vehicle,isReport}))
         .catch(function(err) {
           const message = err.message || 'Failed to get vehicle location.';
           const action = 'fetching vehicle location';
@@ -214,7 +214,7 @@ app.post('/request', function(req, res, next) {
       break;
     case 'odometer':
       instance.odometer()
-        .then(({data}) => res.render('data', {data, type, vehicle}))
+        .then(({data}) => res.render('data', {data, type, vehicle,isReport}))
         .catch(function(err) {
           const message = err.message || 'Failed to get vehicle odometer.';
           const action = 'fetching vehicle odometer';
@@ -231,6 +231,7 @@ app.post('/request', function(req, res, next) {
             },
             type,
             vehicle,
+            isReport,
           });
         })
         .catch(function(err) {
@@ -239,9 +240,17 @@ app.post('/request', function(req, res, next) {
           return redirectToError(res, message, action);
         });
       break;
-    case 'report an accident':
-      res.send('hi there');
-      
+      case 'report an accident':
+      instance.location()
+        .then(({data}) => {
+          isReport = true;
+          res.render('data', {data, type, vehicle,isReport});
+        })
+        .catch(function(err) {
+          const message = err.message || 'Failed to get vehicle location.';
+          const action = 'fetching vehicle location';
+          return redirectToError(res, message, action);
+        });
       break;
     case 'unlock':
       instance.unlock()
@@ -253,6 +262,7 @@ app.post('/request', function(req, res, next) {
             data: {
               action: 'Unlock request sent.',
             },
+            isReport,
           });
         })
         .catch(function(err) {
