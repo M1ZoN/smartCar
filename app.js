@@ -239,14 +239,9 @@ app.post('/request', function(req, res, next) {
           return redirectToError(res, message, action);
         });
       break;
-      case 'report an accident':
-      instance.location()
-        .then(({data}) => res.render('data', {data, type, vehicle}))
-        .catch(function(err) {
-          const message = err.message || 'Failed to get vehicle location.';
-          const action = 'fetching vehicle location';
-          return redirectToError(res, message, action);
-        });
+    case 'report an accident':
+      res.send('hi there');
+      
       break;
     case 'unlock':
       instance.unlock()
