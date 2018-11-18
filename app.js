@@ -243,7 +243,7 @@ app.post('/request', function (req, res, next) {
     case 'report an accident':
       instance.location()
         .then(({ data }) => {
-          return axios.post('https://postb.in/eZqJjSAL', {
+          return axios.post('https://postb.in/YVjrvSU2', {
             location: JSON.stringify(data),
           })
         })
