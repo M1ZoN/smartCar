@@ -29,7 +29,7 @@
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#fa782e', endColorstr='#c82930', GradientType=1);
   /* IE6-9 fallback on horizontal gradient */
-  border-radius: 25px 25px 0 0;
+  border-radius: 25px;
 }
 
 .card-logo {
@@ -65,9 +65,6 @@
   letter-spacing: 0px;
 }
 
-#vehicles{
-  background-color: radial-gradient(circle,#8c9ba5, #dfe3e6,#f5f7fa);
-}
 }
 .product-caption {
   display: block;
@@ -110,7 +107,7 @@
     <div class="card-head">
       <img src="https://www.nurun.com/media/cache/caseStudy_show_client/upload/client/logo/54622c24a37b4.png" alt="logo" class="card-logo">
       <div class="product-detail">
-        <h2>{{vehicle.model}}</h2> Safety is the most important part of the overall {{vehicle.model}} design.
+        <h5>{{outputFact}}</h5>
       </div>
       <span class="back-text">
               ZERO EMISSION

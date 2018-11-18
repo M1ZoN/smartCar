@@ -183,6 +183,10 @@ app.get('/vehicles', function (req, res, next) {
 /**
  * Triggers a request to the vehicle and renders the response.
  */
+function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+
 app.post('/request', function (req, res, next) {
   const { access, vehicles } = req.session;
   if (!access) {
@@ -193,11 +197,18 @@ app.post('/request', function (req, res, next) {
   const vehicle = vehicles[vehicleId];
   const instance = new smartcar.Vehicle(vehicleId, access.accessToken);
   let data = null;
-
+  const teslaFacts = [" As of 2018, Tesla's model range includes the Tesla Model S, Tesla Model X, Tesla Model 3, as well as future planned Tesla Semi and Roadster models.",
+                        "Tesla also has its own powertrain segment, and Toyota’s RAV4 electric vehicle is equipped with a Tesla-produced battery and electric powertrain.",
+                        "Tesla Motors is an electric-car maker headquartered in Palo Alto, California.",
+                        "The first 100 Tesla Roadster (the first automobile of the company) were made within a month. One vehicle cost 100 000 dollars. Serial production started in March 2008.",
+                        "The car battery is the most important innovation of Tesla Motors. Its exact layout is a commercial secret.",
+                        "Brake pads of the car don’t need to be replaced",
+                        "Tesla Model S is now the best-selling car in Norway."];
+  const outputFact = teslaFacts[getRandomInt(7)];
   switch (type) {
     case 'info':
       instance.info()
-        .then(data => res.render('data', { data, type, vehicle }))
+        .then(data => res.render('data', { data, type, vehicle,outputFact }))
         .catch(function (err) {
           const message = err.message || 'Failed to get vehicle info.';
           const action = 'fetching vehicle info';
@@ -206,7 +217,7 @@ app.post('/request', function (req, res, next) {
       break;
     case 'location':
       instance.location()
-        .then(({ data }) => res.render('data', { data, type, vehicle }))
+        .then(({ data }) => res.render('data', { data, type, vehicle,outputFact }))
         .catch(function (err) {
           const message = err.message || 'Failed to get vehicle location.';
           const action = 'fetching vehicle location';
@@ -215,7 +226,7 @@ app.post('/request', function (req, res, next) {
       break;
     case 'odometer':
       instance.odometer()
-        .then(({ data }) => res.render('data', { data, type, vehicle }))
+        .then(({ data }) => res.render('data', { data, type, vehicle,outputFact }))
         .catch(function (err) {
           const message = err.message || 'Failed to get vehicle odometer.';
           const action = 'fetching vehicle odometer';
@@ -232,6 +243,7 @@ app.post('/request', function (req, res, next) {
             },
             type,
             vehicle,
+            outputFact,
           });
         })
         .catch(function (err) {
@@ -248,7 +260,7 @@ app.post('/request', function (req, res, next) {
           })
         })
         .then(function () {
-          res.render('report', { data, type, vehicle });
+          res.render('report', { data, type, vehicle,outputFact });
         })
         .catch(function (err) {
           const message = err.message || 'Failed to get vehicle location.';
@@ -262,6 +274,7 @@ app.post('/request', function (req, res, next) {
           res.render('data', {
             vehicle,
             type,
+            outputFact,
             // Lock and unlock requests do not return data if successful
             data: {
               action: 'Unlock request sent.',

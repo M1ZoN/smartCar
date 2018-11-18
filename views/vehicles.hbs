@@ -1,4 +1,55 @@
+<style>
+.button {
+  display: inline-block;
+  border-radius: 4px;
+  background: #fa782e;
+  /* Old browsers */
+  background: -moz-linear-gradient(-45deg, #fa782e 8%, #c82930 83%);
+  /* FF3.6-15 */
+  background: -webkit-linear-gradient(-45deg, #fa782e 8%, #c82930 83%);
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(135deg, #fa782e 8%, #c82930 83%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#fa782e', endColorstr='#c82930', GradientType=1);
+  /* IE6-9 fallback on horizontal gradient */
+  border-radius: 25px;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 28px;
+  padding: 25px;
+  width: 200px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+}
 
+.button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button:hover span {
+  padding-right: 25px;
+}
+
+.button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+</style>
 <div id="vehicles">
   <h3>Step 2: Make a request</h3>
   <p>
@@ -14,8 +65,14 @@
         {{/each}}
       </select>
     </div>
-    
-    <div class="form-group">
+    <button type="submit" name="requestType" value="info" class="button" style="vertical-align:middle"><span>Info </span></button>
+    <button type="submit" name="requestType" value="location" class="button" style="vertical-align:middle"><span>Location</span></button>
+    <button type="submit" name="requestType" value="odometer" class="button" style="vertical-align:middle"><span>Odometer</span></button>
+    <button type="submit" name="requestType" value="lock" class="button" style="vertical-align:middle"><span>Lock</span></button>
+    <button type="submit" name="requestType" value="unlock" class="button" style="vertical-align:middle"><span>Unlock</span></button>
+    <button type="submit" name="requestType" value="report an accident" class="button" style="vertical-align:middle"><span>Report an accident</span></button>
+
+    <!--div class="form-group">
       <label class="label" for="request">Select a request type:</label>
       <select class="form-control" id="request" name="requestType">
         <option value="info">Vehicle info</option>
@@ -26,7 +83,8 @@
         <option value="report an accident">Report an accident</option>
       </select>
     </div>
-    <button type="submit" class="btn btn-primary">Send request</button>
-    <a href="/logout" class="btn btn-link" role="button">Logout</a>
+    <button type="submit" class="btn btn-primary">Send request</button-->
+
+    <a href="/logout" class="btn btn-link button" style="vertical-align:middle" role="button">Logout</a>
   </form>
 </div>
